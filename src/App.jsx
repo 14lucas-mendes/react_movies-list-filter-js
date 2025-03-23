@@ -1,3 +1,4 @@
+/* eslint-disable function-paren-newline */
 import './App.scss';
 import { useState } from 'react';
 import { MoviesList } from './components/MoviesList';
@@ -5,8 +6,15 @@ import moviesFromServer from './api/movies.json';
 
 export const App = () => {
   const [query, setQuery] = useState('');
-  const filteredMovies = moviesFromServer.filter(movie =>
-    movie.title.toLowerCase().includes(query.toLowerCase()),);
+
+  const filteredMovies = moviesFromServer.filter(movie => {
+    const normalizedQuery = query.trim().toLowerCase();
+
+    return (
+      movie.title.toLowerCase().includes(normalizedQuery) ||
+      movie.description.toLowerCase().includes(normalizedQuery)
+    );
+  });
 
   return (
     <div className="page">
